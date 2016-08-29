@@ -1,0 +1,99 @@
+﻿@section styles {
+    <style>
+        #information-panel { margin-top: 2%; }
+
+        .file-panel { margin-top: 20px; }
+
+        .directory { color: orange }
+
+        .file { color: lightgray }
+
+        .drive {
+            color: gray;
+            font-size: 1.5em;
+        }
+    </style>
+}
+
+@section scripts {
+    <environment names="Development">
+        <script src="~/js/services/file.browser.service.js"></script>
+        <script src="~/js/controllers/file.browser.controller.js"></script>
+    </environment>
+}
+
+<div ng-controller="fileBrowserController" ng-init="getLogicalDrives()">
+    <toaster-container  toaster-options="{'close-button':true }"></toaster-container>
+    <div class="row">
+        <div class="col-xs-12">
+            <div id="information-panel" class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row" cg-busy="[getAmountOfFilesPromise, getGetFilesInDirectoryPromise]">
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Less 10Mb</div>
+                                <div class="panel-body">
+                                    <span>{{ amount[0] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">10Mb-50Mb</div>
+                                <div class="panel-body">
+                                    <span>{{ amount[1] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">More 100Mb</div>
+                                <div class="panel-body">
+                                    <span>{{ amount[2] }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button ng-click="goTopDirectory()" class="btn btn-default" type="button"><i class="glyphicon glyphicon-arrow-up"></i></button>
+                </span>
+                <input readonly type="text" class="form-control" value="{{ parsedCurrentDirectory }}">
+                <span class="input-group-btn">
+                    <button ng-click="refreshDirectories()" class="btn btn-default" type="button"><i class="glyphicon glyphicon-refresh"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel panel-default file-panel">
+                <abn-tree tree-data="myData" tree-control="myTree" icon-leaf="glyphicon glyphicon-folder-close"
+                          icon-collapse="glyphicon glyphicon-folder-open"
+                          icon-expand="glyphicon glyphicon-folder-close" on-select="getDirectories(branch)">
+                </abn-tree>
+            </div>
+
+        </div>
+        <div class="col-md-7">
+            <div class="panel panel-default file-panel">
+                <div class="panel-body">
+                    <a style="font-size: 1.5em" href="#" ng-click="goTopDirectory()">..</a>
+                    <div ng-repeat="fileFolder in filesAndDirectories">
+                        <i class="glyphicon glyphicon-file" ng-class="{ 'glyphicon-file file': fileFolder.type == 0, 
+                           'glyphicon-folder-open directory': fileFolder.type == 1,
+                           'glyphicon-hdd drive': fileFolder.type == 2}">
+                        </i>&nbsp;&nbsp;<a ng-class="{ 'drive': fileFolder.type == 2 }" style="color: black" href="#" 
+                                           ng-click="getFilesInDirectory(fileFolder.path)" ng-model="currentDirectory">{{ fileFolder.name }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html ng-app="fileBrowserApp">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Browser</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-fileinput/css/fileinput.css" />
+        <link rel="stylesheet" href="~/lib/angular-busy/dist/angular-busy.css" />
+        <link rel="stylesheet" href="~/lib/angular-bootstrap-nav-tree/dist/abn_tree.css" />
+        <link rel="stylesheet" href="~/lib/AngularJS-Toaster/toaster.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/angular/angular.js"></script>
+    </environment>
+
+    @RenderSection("styles", false)
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" ng-mouseenter="collapsed = true" ng-mouseleave="collapsed = false">
+                    <i class="glyphicon"
+                       ng-class="{ 'glyphicon-folder-open': collapsed, 'glyphicon-folder-close': !collapsed }">
+                        
+                    </i>&nbsp;File Browser
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2016 - FileBrowser</p>
+        </footer>
+    </div>
+
+    <environment names="Development">
+        <script src="~/lib/angular-animate/angular-animate.js"></script>
+        <script src="~/lib/angular-busy/dist/angular-busy.js"></script>
+        <script src="~/lib/bootstrap-fileinput/js/fileinput.min.js"></script>
+        <script src="~/lib/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+        <script src="~/lib/angular-bootstrap-nav-tree/dist/abn_tree_directive.js"></script>
+        <script src="~/lib/AngularJS-Toaster/toaster.js"></script>
+        <script src="~/js/file.browser.app.js"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
